@@ -8,14 +8,59 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class AdminPanel extends JPanel {
-    List<Integer>apiChosen;
+    private List<Integer>apiChosen;
+    private List<Api>lastActions;
+    private final BotStats BOT_STATS;
+    private final FlowLayout FLOW = new FlowLayout();
+
     public AdminPanel(){
         this.setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
-        this.setLayout(null);
+        this.setLayout(FLOW);
         this.setName("Telegram Bot - Admin Panel");
         this.setVisible(true);
+        this.BOT_STATS =new BotStats();
         addChoseApiOpt();
+        addStatsButton();
+        addLastActionsButton();
+        updateActivityGraph();
         }
+
+    private void updateActivityGraph() {
+        JButton activityGraph = new JButton("Activity Graph");
+        activityGraph.setSize(Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
+        activityGraph.setVisible(true);
+        this.add(activityGraph);
+    }
+
+    private void addLastActionsButton() {
+        JButton lastActions = new JButton("Last Actions");
+        lastActions.setSize(Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
+        lastActions.setVisible(true);
+        this.add(lastActions);
+    }
+
+    private void addStatsButton() {
+        String stats = BOT_STATS.getStats();
+        JButton statsButton = new JButton("Stats");
+        statsButton.setSize(Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
+        statsButton.setVisible(true);
+        this.add(statsButton);
+        statsButton.addActionListener(e -> {
+            Window statsWindow = new Window();
+            statsWindow.setLayout(FLOW);
+            statsWindow.setLocationRelativeTo(null);
+            statsWindow.setSize(Constants.WINDOW_WIDTH/2,Constants.WINDOW_HEIGHT/2);
+            statsWindow.setName("Stats Window");
+            statsWindow.setTitle("Telegram Bot Stats");
+            statsWindow.setResizable(false);
+            statsWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            JLabel botStats = new JLabel(stats);
+            botStats.setVisible(true);
+            statsWindow.add(botStats);
+            statsWindow.setVisible(true);
+
+        });
+    }
 
     private void addChoseApiOpt() {
         JButton choseApiOpt = new JButton("Choose API's");
@@ -29,10 +74,9 @@ public class AdminPanel extends JPanel {
     }
 
     private List<Integer> createWindowOfAvailableOpt() {
-        FlowLayout flow = new FlowLayout();
         List<Integer>optionsChoice = new ArrayList<>();
         Window optionWindow = new Window();
-        optionWindow.setLayout(flow);
+        optionWindow.setLayout(FLOW);
         optionWindow.setLocationRelativeTo(null);
         optionWindow.setSize(Constants.WINDOW_WIDTH/2,Constants.WINDOW_HEIGHT);
         optionWindow.setName("API options window");
