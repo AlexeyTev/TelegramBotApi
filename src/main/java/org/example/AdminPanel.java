@@ -8,6 +8,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class AdminPanel extends JPanel {
+    List<Integer>apiChosen;
     public AdminPanel(){
         this.setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
         this.setLayout(null);
@@ -22,8 +23,8 @@ public class AdminPanel extends JPanel {
         choseApiOpt.setVisible(true);
         this.add(choseApiOpt);
         choseApiOpt.addActionListener(e -> {
-            System.out.println(createWindowOfAvailableOpt()
-);
+            this.apiChosen = createWindowOfAvailableOpt();
+            System.out.println(this.apiChosen);
         });
     }
 
@@ -46,7 +47,7 @@ public class AdminPanel extends JPanel {
         optionWindow.add(opt1);
         opt1.setVisible(true);
         opt1.addActionListener(e -> {
-            Integer one = 1,two = 2,three = 3,four = 4,five = 5;
+            Integer one = 1;
             addNumberToToggle(optionsChoice, opt1, opt1ToggleCounter, one,optionWindow);
         });
 
