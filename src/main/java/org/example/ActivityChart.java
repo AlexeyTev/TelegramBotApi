@@ -41,7 +41,7 @@ public class ActivityChart {
         generate+="0]}]}}";
         System.out.println(generate);
 
-     /*   try{
+        try{
         GetRequest getRequest = Unirest.get(generate);
         HttpResponse<String> response;
 
@@ -52,7 +52,7 @@ public class ActivityChart {
         jsonResult = response.getBody();
         } catch (UnirestException e) {
             throw new RuntimeException(e);
-        }*/
+        }
 
 
         return jsonResult;

@@ -1,5 +1,6 @@
 package org.example;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -9,19 +10,26 @@ public class Api extends Thread{
     private String apiName;
     private User user;
     private Date date;
-    public static int time;
     private int useCounter;
 
-    //TODO: לבדוק איך תריך להעביר את הזמן שאותו מבקשים
     public Api (String apiName, User user, int time ){
-        Calendar calendar = Calendar.getInstance();
+       final SimpleDateFormat FORMAT = new SimpleDateFormat("dd/mm/yyyy hh:mm:ss" );
         this.id = idCounter;
         idCounter++;
         this.user = user;
-        this.date = calendar.getTime();
+        this.date = new Date();
         this.useCounter=0;
     }
 
+    //TODO: לטפל בשליחה וקבלת בקשות
+    private String sendRequestToApi (String userInput){
+        String jsonResult ="";
 
+        return jsonResult;
+    }
 
+    @Override
+    public String toString() {
+        return "Api:" + "(" + this.id + ")"+ " API chosen:" + this.apiName+", User: "+this.user + " at time: "+ this.date;
+    }
 }

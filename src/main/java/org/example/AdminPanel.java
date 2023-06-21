@@ -1,5 +1,9 @@
 package org.example;
 
+import org.telegram.telegrambots.meta.TelegramBotsApi;
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
+import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
+
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -19,10 +23,11 @@ public class AdminPanel extends JPanel {
         this.setName("Telegram Bot - Admin Panel");
         this.setVisible(true);
         this.BOT_STATS =new BotStats();
-        addChoseApiOpt();
         addStatsButton();
         addLastActionsButton();
         updateActivityGraph();
+        addChoseApiOpt();
+
         }
 
     private void updateActivityGraph() {
@@ -69,8 +74,19 @@ public class AdminPanel extends JPanel {
         this.add(choseApiOpt);
         choseApiOpt.addActionListener(e -> {
             this.apiChosen = createWindowOfAvailableOpt();
+            createApiBot(this.apiChosen);
             System.out.println(this.apiChosen);
         });
+    }
+
+    private void createApiBot(List<Integer> apiChosen) {
+        try{
+            TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
+            telegramBotsApi.registerBot(new ApiBot(this.apiChosen));
+        }catch (TelegramApiException e){
+            e.printStackTrace();
+        }
+
     }
 
     private List<Integer> createWindowOfAvailableOpt() {
@@ -144,6 +160,11 @@ public class AdminPanel extends JPanel {
         optToggleCounter.getAndIncrement();
         if (optToggleCounter.intValue()%2==1) {
             if (optionsChoice.size()<Constants.MAX_OPTIONS){
+                errorLabel.setText(" ");
+                optionWindow.remove(errorLabel);
+                optionWindow.add(errorLabel);
+                errorLabel.setVisible(true);
+                optionWindow.setVisible(true);
             button.setBackground(Color.BLUE);
             optionsChoice.add(num);
         }else {   errorLabel.setText("ERROR: To Many API choices (ONLY " +Constants.MAX_OPTIONS+ " ALLOWED)");
@@ -158,7 +179,7 @@ public class AdminPanel extends JPanel {
             optionsChoice.remove(num);
 
         }
-
+        this.apiChosen=optionsChoice;
         System.out.println(optionsChoice);
     }
 }
