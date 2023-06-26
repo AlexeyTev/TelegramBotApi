@@ -11,24 +11,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApiBot extends TelegramLongPollingBot {
+
    private List<Integer> apiChosen;
 
    public ApiBot(List<Integer>apiChosen){
        this.apiChosen=apiChosen;
    }
-    @Override
+
     public String getBotUsername() {
-        return "api2106_bot";
+        return Constants.BOT_USER_NAME;
     }
 
-    @Override
     public String getBotToken() {
         return "6051729287:AAFBlCWb34R6FAQq6bbiq48Hnkae1582Dhc";
     }
 
-    @Override
     public void onUpdateReceived(Update update) {
-        String output = "Hi welcome to API bot, here are the available options:";
+        String output = "Hi welcome to API bot, here are the available options: ";
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
         List<List<InlineKeyboardButton>> rowsInline = new ArrayList<>();
         List<InlineKeyboardButton> rowInline = new ArrayList<>();
@@ -37,14 +36,14 @@ public class ApiBot extends TelegramLongPollingBot {
             switch (apiChosen.get(counter)) {
                 case Constants.OPT_1_NUM -> {
                     InlineKeyboardButton button1 = new InlineKeyboardButton();
-                    button1.setText("Option 1");
+                    button1.setText(Constants.OPT_1);
                     button1.setCallbackData(Constants.OPT_1);
                     rowInline.add(button1);
                     counter++;
                 }
                 case Constants.OPT_2_NUM -> {
                     InlineKeyboardButton button2 = new InlineKeyboardButton();
-                    button2.setText("Option 2");
+                    button2.setText(Constants.OPT_2);
                     button2.setCallbackData(Constants.OPT_2);
                     rowInline.add(button2);
                     counter++;
@@ -65,7 +64,7 @@ public class ApiBot extends TelegramLongPollingBot {
                 }
                 case Constants.OPT_5_NUM -> {
                     InlineKeyboardButton button5 = new InlineKeyboardButton();
-                    button5.setText("Option 5");
+                    button5.setText(Constants.OPT_5);
                     button5.setCallbackData(Constants.OPT_5);
                     rowInline.add(button5);
                     counter++;
@@ -87,6 +86,7 @@ public class ApiBot extends TelegramLongPollingBot {
         }
         update.getCallbackQuery();
     }
+
     public void setApiChosen(List<Integer> apiChosen) {
         this.apiChosen = apiChosen;
     }

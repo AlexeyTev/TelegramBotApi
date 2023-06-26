@@ -76,6 +76,7 @@ public class AdminPanel extends JPanel {
             this.apiChosen = createWindowOfAvailableOpt();
             createApiBot(this.apiChosen);
             System.out.println(this.apiChosen);
+
         });
     }
 
@@ -99,8 +100,6 @@ public class AdminPanel extends JPanel {
         optionWindow.setTitle("API's options window");
         optionWindow.setResizable(false);
         optionWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        //TODO: צריך לסדר את זה שכשנפתח חלון לבחירת אופציות מבצבץ כפתור קודם בצד ימין
-       // optionWindow.removeAll();
         JButton opt1 = new JButton(Constants.OPT_1);
         AtomicInteger opt1ToggleCounter = new AtomicInteger();
         opt1.setBounds(Constants.WINDOW_WIDTH/4-Constants.BUTTON_WIDTH/2,50,Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
@@ -154,32 +153,28 @@ public class AdminPanel extends JPanel {
         return optionsChoice;
     }
 
-    //TODO: לבדוק איך עושים טוגל בצורה שונה מספירה עם מספרים
-    private void addNumberToToggle(List<Integer> optionsChoice, JButton button, AtomicInteger optToggleCounter, Integer num,Window optionWindow
-    ) {JLabel errorLabel = new JLabel();
+
+    private void addNumberToToggle(List<Integer> optionsChoice, JButton button, AtomicInteger optToggleCounter, Integer num, Window optionWindow) {
+        JLabel errorLabel = new JLabel();
         optToggleCounter.getAndIncrement();
-        if (optToggleCounter.intValue()%2==1) {
-            if (optionsChoice.size()<Constants.MAX_OPTIONS){
+        if (optToggleCounter.intValue() % 2 == 1) {
+            if (optionsChoice.size() < Constants.MAX_OPTIONS) {
                 errorLabel.setText(" ");
                 optionWindow.remove(errorLabel);
                 optionWindow.add(errorLabel);
                 errorLabel.setVisible(true);
                 optionWindow.setVisible(true);
-            button.setBackground(Color.BLUE);
-            optionsChoice.add(num);
-        }else {   errorLabel.setText("ERROR: To Many API choices (ONLY " +Constants.MAX_OPTIONS+ " ALLOWED)");
-                System.out.println("ERROR: To Many API choices (ONLY " +Constants.MAX_OPTIONS+ " ALLOWED)");
-                errorLabel.setBounds(Constants.WINDOW_WIDTH/4,Constants.WINDOW_HEIGHT-100,200,50);
-                errorLabel.setVisible(true);
-                optionWindow.add(errorLabel);
-                optionWindow.setVisible(true);
-        }
-            }else {
+                button.setBackground(Color.BLUE);
+                optionsChoice.add(num);
+            } else {
+                String errorMessage = "ERROR: Too Many API choices (ONLY " + Constants.MAX_OPTIONS + " ALLOWED)";
+                JOptionPane.showMessageDialog(optionWindow, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
             button.setBackground(Color.WHITE);
             optionsChoice.remove(num);
-
         }
-        this.apiChosen=optionsChoice;
+        this.apiChosen = optionsChoice;
         System.out.println(optionsChoice);
     }
 }

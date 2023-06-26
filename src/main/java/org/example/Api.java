@@ -13,7 +13,7 @@ public class Api extends Thread{
     private int useCounter;
 
     public Api (String apiName, User user, int time ){
-       final SimpleDateFormat FORMAT = new SimpleDateFormat("dd/mm/yyyy hh:mm:ss" );
+       final SimpleDateFormat FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
         this.id = idCounter;
         idCounter++;
         this.user = user;
