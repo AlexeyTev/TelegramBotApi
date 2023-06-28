@@ -1,8 +1,5 @@
 package org.example;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -15,11 +12,9 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class ApiBot extends TelegramLongPollingBot {
 
@@ -46,11 +41,9 @@ public class ApiBot extends TelegramLongPollingBot {
             sendMessage.setChatId(update.getCallbackQuery().getMessage().getChatId());
             String buttonPressed = update.getCallbackQuery().getData();
             switch (buttonPressed){
-                case Constants.OPT_1 -> {
-                   sendMessage.setText(jokesCreator());
-                }
-                case Constants.OPT_2 -> {numberCreator();}
-                case Constants.OPT_3 -> {}
+                case Constants.OPT_1 -> {sendMessage.setText(jokesCreator());                }
+                case Constants.OPT_2 -> {sendMessage.setText(numberCreator());}
+                case Constants.OPT_3 -> {sendMessage.setText(quotesCreator());}
                 case Constants.OPT_4 -> {}
                 case Constants.OPT_5 -> {}
             }
@@ -119,7 +112,7 @@ public class ApiBot extends TelegramLongPollingBot {
         this.apiChosen = apiChosen;
     }
 
-    public String getJason(String url) {
+    public String getJson(String url) {
         String json = "";
         try {
             GetRequest getRequest = Unirest.get(url);
@@ -145,7 +138,7 @@ public class ApiBot extends TelegramLongPollingBot {
         return output;
     }
 
-    public void numberCreator(){
+    public String numberCreator(){
         GetRequest getRequest = Unirest.get(Constants.NUMBERS_API_URL);
         HttpResponse<String> response = null;
         try {
@@ -159,5 +152,19 @@ public class ApiBot extends TelegramLongPollingBot {
 
     }
 
+    public String quotesCreator(){
+        String output = "Error";
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            QuotesApi quotesApi = objectMapper.readValue( new URL(Constants.QUOTES_API_URL), QuotesApi.class);
+            output=quotesApi.toString();
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace();
+        }
 
-}
+    }
+    }
+
+
+
