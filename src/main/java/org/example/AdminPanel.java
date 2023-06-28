@@ -51,7 +51,7 @@ public class AdminPanel extends JPanel {
         statsButton.setVisible(true);
         this.add(statsButton);
         statsButton.addActionListener(e -> {
-            JPanel statsWindow = new JPanel();
+            JPanel statsWindow = new JPanel(); // הוחלף לjpanel מקום window
             statsWindow.setLayout(FLOW);
           //  statsWindow.setLocationRelativeTo(null);
             statsWindow.setSize(Constants.WINDOW_WIDTH/2,Constants.WINDOW_HEIGHT/2);
