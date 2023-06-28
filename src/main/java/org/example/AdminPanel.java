@@ -51,14 +51,14 @@ public class AdminPanel extends JPanel {
         statsButton.setVisible(true);
         this.add(statsButton);
         statsButton.addActionListener(e -> {
-            Window statsWindow = new Window();
+            JPanel statsWindow = new JPanel();
             statsWindow.setLayout(FLOW);
-            statsWindow.setLocationRelativeTo(null);
+          //  statsWindow.setLocationRelativeTo(null);
             statsWindow.setSize(Constants.WINDOW_WIDTH/2,Constants.WINDOW_HEIGHT/2);
             statsWindow.setName("Stats Window");
-            statsWindow.setTitle("Telegram Bot Stats");
-            statsWindow.setResizable(false);
-            statsWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+           // statsWindow.setTitle("Telegram Bot Stats");
+          //  statsWindow.setResizable(false);
+           // statsWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             JLabel botStats = new JLabel(stats);
             botStats.setVisible(true);
             statsWindow.add(botStats);
