@@ -1,11 +1,8 @@
 package org.example;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class QuotesApi {
-    @JsonIgnoreProperties(ignoreUnknown = true)
-
-
 
         private String content;
         private String author;

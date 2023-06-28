@@ -1,5 +1,6 @@
 package org.example;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.Unirest;
@@ -12,6 +13,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMa
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,14 +73,14 @@ public class ApiBot extends TelegramLongPollingBot {
                     }
                     case Constants.OPT_3_NUM -> {
                         InlineKeyboardButton button3 = new InlineKeyboardButton();
-                        button3.setText("Option 3");
+                        button3.setText(Constants.OPT_3);
                         button3.setCallbackData(Constants.OPT_3);
                         rowInline.add(button3);
                         counter++;
                     }
                     case Constants.OPT_4_NUM -> {
                         InlineKeyboardButton button4 = new InlineKeyboardButton();
-                        button4.setText("Option 4");
+                        button4.setText(Constants.OPT_4);
                         button4.setCallbackData(Constants.OPT_4);
                         rowInline.add(button4);
                         counter++;
@@ -141,28 +143,33 @@ public class ApiBot extends TelegramLongPollingBot {
     public String numberCreator(){
         GetRequest getRequest = Unirest.get(Constants.NUMBERS_API_URL);
         HttpResponse<String> response = null;
+        String json = "Error";
         try {
             response = getRequest.asString();
-            String json = response.getBody();
+             json = response.getBody();
             System.out.println(json);
         } catch (UnirestException e) {
             e.printStackTrace();
         }
-
-
+        return json;
     }
 
     public String quotesCreator(){
         String output = "Error";
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            QuotesApi quotesApi = objectMapper.readValue( new URL(Constants.QUOTES_API_URL), QuotesApi.class);
+            List<QuotesApi> quotesApi = objectMapper.readValue(new URL(Constants.QUOTES_API_URL), new TypeReference<List<QuotesApi>>() {
+                @Override
+                public Type getType() {
+                    return super.getType();
+                }
+            });
             output=quotesApi.toString();
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace();
         }
-
+        return output;
     }
     }
 

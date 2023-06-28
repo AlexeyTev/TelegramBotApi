@@ -15,5 +15,5 @@ public static final String BOT_USER_NAME = "api2106_bot";
     public static String JOKES_API_URL = "https://v2.jokeapi.dev/joke/Any?type=single";
     public static String NUMBERS_API_URL = "http://numbersapi.com/random";
 public static String BOT_TOKEN = "6051729287:AAFBlCWb34R6FAQq6bbiq48Hnkae1582Dhc";
-public static String QUOTES_API_URL = "https://api.quotable.io/quotes/random?tags=any" , QUOTE_API_PATH_END = "&&maxLength=100";
+public static String QUOTES_API_URL = "https://api.quotable.io/quotes/random?tags=";
 }

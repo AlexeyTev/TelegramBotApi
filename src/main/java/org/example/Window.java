@@ -13,7 +13,7 @@ public class Window extends JFrame {
         ImageIcon icon = new ImageIcon(Constants.ICON_NAME);
         this.setIconImage(icon.getImage());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
         this.setVisible(true);
         AdminPanel adminPanel = new AdminPanel();
         this.add(adminPanel);
