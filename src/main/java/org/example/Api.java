@@ -12,8 +12,7 @@ public class Api extends Thread{
     private Date date;
     private int useCounter;
 
-    public Api (String apiName, User user, int time ){
-       final SimpleDateFormat FORMAT = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+    public Api (String apiName, User user){
         this.id = idCounter;
         idCounter++;
         this.user = user;
@@ -28,7 +27,7 @@ public class Api extends Thread{
         return jsonResult;
     }
 
-    @Override
+
     public String toString() {
         return "Api:" + "(" + this.id + ")"+ " API chosen:" + this.apiName+", User: "+this.user + " at time: "+ this.date;
     }
