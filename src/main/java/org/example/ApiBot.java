@@ -21,6 +21,7 @@ import java.util.List;
 public class ApiBot extends TelegramLongPollingBot {
 
     private List<Integer> apiChosen;
+    public static int countRequest = 0;
 
     public ApiBot(List<Integer> apiChosen) {
         this.apiChosen = apiChosen;
@@ -35,10 +36,10 @@ public class ApiBot extends TelegramLongPollingBot {
     }
 
     public void onUpdateReceived(Update update) {
+        countRequest++;
+        System.out.println(countRequest);
         String output = "Hi welcome to API bot, here are the available options: ";
         SendMessage sendMessage = new SendMessage();
-
-
         if(update.hasCallbackQuery()){
             sendMessage.setChatId(update.getCallbackQuery().getMessage().getChatId());
             String buttonPressed = update.getCallbackQuery().getData();

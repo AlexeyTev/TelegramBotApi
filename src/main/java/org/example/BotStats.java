@@ -23,6 +23,6 @@ public class BotStats {
   }
 
     public String getStats (){
-      return this.totalRequests + " requests, " + this.uniqueUsers.size() + " unique users, ";
+      return ApiBot.countRequest + " requests, " + this.uniqueUsers.size() + " unique users, ";
     }
 }

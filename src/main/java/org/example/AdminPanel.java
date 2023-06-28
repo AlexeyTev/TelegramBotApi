@@ -21,63 +21,63 @@ public class AdminPanel extends JPanel {
         this.setSize(Constants.WINDOW_WIDTH, Constants.WINDOW_HEIGHT);
         this.setLayout(FLOW);
         this.setName("Telegram Bot - Admin Panel");
-        this.setVisible(true);
         this.BOT_STATS =new BotStats();
         addStatsButton();
         addLastActionsButton();
         updateActivityGraph();
         addChoseApiOpt();
-
-        }
+        this.setBackground(Color.white);
+        this.setVisible(true);
+    }
 
     private void updateActivityGraph() {
         JButton activityGraph = new JButton("Activity Graph");
         activityGraph.setSize(Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
-        activityGraph.setVisible(true);
         this.add(activityGraph);
+        activityGraph.setVisible(true);
     }
 
     private void addLastActionsButton() {
         JButton lastActions = new JButton("Last Actions");
         lastActions.setSize(Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
-        lastActions.setVisible(true);
         this.add(lastActions);
+        lastActions.setVisible(true);
     }
 
     private void addStatsButton() {
-        String stats = BOT_STATS.getStats();
         JButton statsButton = new JButton("Stats");
         statsButton.setSize(Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
-        statsButton.setVisible(true);
         this.add(statsButton);
+        statsButton.setVisible(true);
         statsButton.addActionListener(e -> {
-            JPanel statsWindow = new JPanel(); // הוחלף לjpanel מקום window
+            String stats = BOT_STATS.getStats();
+            System.out.println(stats);
+            Menu statsWindow = new Menu();
+            statsWindow.setSize(getWidth(),getHeight());
             statsWindow.setLayout(FLOW);
-          //  statsWindow.setLocationRelativeTo(null);
+            statsWindow.setLocationRelativeTo(null);
             statsWindow.setSize(Constants.WINDOW_WIDTH/2,Constants.WINDOW_HEIGHT/2);
             statsWindow.setName("Stats Window");
-           // statsWindow.setTitle("Telegram Bot Stats");
-          //  statsWindow.setResizable(false);
-           // statsWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            statsWindow.setTitle("Telegram Bot Stats");
+            statsWindow.setResizable(false);
+            statsWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
             JLabel botStats = new JLabel(stats);
             botStats.setVisible(true);
             statsWindow.add(botStats);
             statsWindow.setVisible(true);
-
         });
     }
 
     private void addChoseApiOpt() {
         JButton choseApiOpt = new JButton("Choose API's");
         choseApiOpt.setBounds(Constants.WINDOW_WIDTH/2-Constants.BUTTON_WIDTH/2,50,Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
-        choseApiOpt.setVisible(true);
         this.add(choseApiOpt);
         choseApiOpt.addActionListener(e -> {
             this.apiChosen = createWindowOfAvailableOpt();
             createApiBot(this.apiChosen);
             System.out.println(this.apiChosen);
-
         });
+        choseApiOpt.setVisible(true);
     }
 
     private void createApiBot(List<Integer> apiChosen) {
@@ -92,10 +92,10 @@ public class AdminPanel extends JPanel {
 
     private List<Integer> createWindowOfAvailableOpt() {
         List<Integer>optionsChoice = new ArrayList<>();
-        Window optionWindow = new Window();
+        Menu optionWindow = new Menu();
         optionWindow.setLayout(FLOW);
         optionWindow.setLocationRelativeTo(null);
-        optionWindow.setSize(Constants.WINDOW_WIDTH/2,Constants.WINDOW_HEIGHT);
+        optionWindow.setSize(Constants.WINDOW_WIDTH/2,Constants.WINDOW_HEIGHT/2);
         optionWindow.setName("API options window");
         optionWindow.setTitle("API's options window");
         optionWindow.setResizable(false);
@@ -154,7 +154,7 @@ public class AdminPanel extends JPanel {
     }
 
 
-    private void addNumberToToggle(List<Integer> optionsChoice, JButton button, AtomicInteger optToggleCounter, Integer num, Window optionWindow) {
+    private void addNumberToToggle(List<Integer> optionsChoice, JButton button, AtomicInteger optToggleCounter, Integer num, Menu optionWindow) {
         JLabel errorLabel = new JLabel();
         optToggleCounter.getAndIncrement();
         if (optToggleCounter.intValue() % 2 == 1) {
@@ -169,6 +169,7 @@ public class AdminPanel extends JPanel {
             } else {
                 String errorMessage = "ERROR: Too Many API choices (ONLY " + Constants.MAX_OPTIONS + " ALLOWED)";
                 JOptionPane.showMessageDialog(optionWindow, errorMessage, "Error", JOptionPane.ERROR_MESSAGE);
+                optionWindow.dispose();
             }
         } else {
             button.setBackground(Color.WHITE);
