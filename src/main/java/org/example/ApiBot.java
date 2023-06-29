@@ -47,7 +47,7 @@ public class ApiBot extends TelegramLongPollingBot {
                 case Constants.OPT_1 -> {sendMessage.setText(jokesCreator());                }
                 case Constants.OPT_2 -> {sendMessage.setText(numberCreator());}
                 case Constants.OPT_3 -> {sendMessage.setText(quotesCreator());}
-                case Constants.OPT_4 -> {}
+                case Constants.OPT_4 -> {sendMessage.setText(catsCreator());}
                 case Constants.OPT_5 -> {}
             }
         }else {
@@ -134,6 +134,19 @@ public class ApiBot extends TelegramLongPollingBot {
             ObjectMapper objectMapper = new ObjectMapper();
            JokesApi jokesApi = objectMapper.readValue( new URL(Constants.JOKES_API_URL), JokesApi.class);
             output=jokesApi.getJoke();
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace();
+        }
+        return output;
+    }
+
+    public String catsCreator() {
+        String output = "Error";
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            CatApi catApi = objectMapper.readValue( new URL(Constants.CAT_API_URL), CatApi.class);
+            output=catApi.getFact();
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace();

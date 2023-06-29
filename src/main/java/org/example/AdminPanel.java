@@ -6,6 +6,8 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -35,6 +37,28 @@ public class AdminPanel extends JPanel {
         activityGraph.setSize(Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
         this.add(activityGraph);
         activityGraph.setVisible(true);
+        activityGraph.addActionListener(e -> {
+            Menu statsWindow = new Menu();
+            statsWindow.setSize(getWidth(),getHeight());
+            statsWindow.setLayout(FLOW);
+            statsWindow.setLocationRelativeTo(null);
+            statsWindow.setSize(Constants.WINDOW_WIDTH/2,Constants.WINDOW_HEIGHT/2);
+            statsWindow.setName("Stats Window");
+            statsWindow.setTitle("Telegram Bot Stats");
+            statsWindow.setResizable(false);
+            statsWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            String chartUrl = "https://quickchart.io/sandbox/#%7B%22chart%22%3A%22%7B%5Cn%20%20type%3A%20'bar'%2C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Show%20a%20bar%20chart%5Cn%20%20data%3A%20%7B%5Cn%20%20%20%20labels%3A%20%5B2012%2C%202013%2C%202014%2C%202015%2C%202016%5D%2C%20%20%20%2F%2F%20Set%20X-axis%20labels%5Cn%20%20%20%20datasets%3A%20%5B%7B%5Cn%20%20%20%20%20%20label%3A%20'Users'%2C%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Create%20the%20'Users'%20dataset%5Cn%20%20%20%20%20%20data%3A%20%5B50%2C%20100%2C%2050%2C%20180%2C%20120%5D%20%20%20%20%20%20%20%20%20%20%20%2F%2F%20Add%20data%20to%20the%20chart%5Cn%20%20%20%20%7D%5D%5Cn%20%20%7D%5Cn%7D%22%2C%22width%22%3A800%2C%22height%22%3A400%2C%22version%22%3A%222.9.4%22%2C%22backgroundColor%22%3A%22%23fff%22%7D"; // הקישור לתמונת הגרף
+            URL url = null;
+            try {
+                url = new URL(chartUrl);
+            } catch (MalformedURLException ex) {
+                throw new RuntimeException(ex);
+            }
+            ImageIcon chartImage = new ImageIcon(url);
+            JLabel chartLabel = new JLabel(chartImage);
+            statsWindow.getContentPane().add(chartLabel);
+            statsWindow.setVisible(true);
+        });
     }
 
     private void addLastActionsButton() {
