@@ -16,15 +16,21 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ApiBot extends TelegramLongPollingBot {
 
     private List<Integer> apiChosen;
     public static int countRequest = 0;
+    private Map<Long,Integer> uniqueUser;
+    public static int sizeUser = 0;
+
 
     public ApiBot(List<Integer> apiChosen) {
         this.apiChosen = apiChosen;
+        uniqueUser = new HashMap<>();
     }
 
     public String getBotUsername() {
@@ -36,19 +42,19 @@ public class ApiBot extends TelegramLongPollingBot {
     }
 
     public void onUpdateReceived(Update update) {
+        sizeUser = uniqueUser.size();
         countRequest++;
-        System.out.println(countRequest);
         String output = "Hi welcome to API bot, here are the available options: ";
         SendMessage sendMessage = new SendMessage();
         if(update.hasCallbackQuery()){
             sendMessage.setChatId(update.getCallbackQuery().getMessage().getChatId());
             String buttonPressed = update.getCallbackQuery().getData();
             switch (buttonPressed){
-                case Constants.OPT_1 -> {sendMessage.setText(jokesCreator());                }
-                case Constants.OPT_2 -> {sendMessage.setText(numberCreator());}
-                case Constants.OPT_3 -> {sendMessage.setText(quotesCreator());}
-                case Constants.OPT_4 -> {sendMessage.setText(catsCreator());}
-                case Constants.OPT_5 -> {sendMessage.setText(factsCreator());}
+                case Constants.OPT_1 -> sendMessage.setText(jokesCreator());
+                case Constants.OPT_2 -> sendMessage.setText(numberCreator());
+                case Constants.OPT_3 -> sendMessage.setText(quotesCreator());
+                case Constants.OPT_4 -> sendMessage.setText(catsCreator());
+                case Constants.OPT_5 -> sendMessage.setText(factsCreator());
             }
         }else {
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
