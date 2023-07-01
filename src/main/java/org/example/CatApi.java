@@ -14,4 +14,10 @@ public class CatApi {
     public void setFact(String fact) {
         this.fact = fact;
     }
+
+    @Override
+    public String toString() {
+        return
+                "Fact about cats : '" + fact + '\'' ;
+    }
 }

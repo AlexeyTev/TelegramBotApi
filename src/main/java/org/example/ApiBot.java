@@ -48,7 +48,7 @@ public class ApiBot extends TelegramLongPollingBot {
                 case Constants.OPT_2 -> {sendMessage.setText(numberCreator());}
                 case Constants.OPT_3 -> {sendMessage.setText(quotesCreator());}
                 case Constants.OPT_4 -> {sendMessage.setText(catsCreator());}
-                case Constants.OPT_5 -> {}
+                case Constants.OPT_5 -> {sendMessage.setText(factsCreator());}
             }
         }else {
             InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
@@ -141,12 +141,25 @@ public class ApiBot extends TelegramLongPollingBot {
         return output;
     }
 
+    public String factsCreator() {
+        String output = "Error";
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            FactApi factApi = objectMapper.readValue( new URL(Constants.FACT_API_URL), FactApi.class);
+            output=factApi.toString();
+        } catch (Exception e) {
+            e.getMessage();
+            e.printStackTrace();
+        }
+        return output;
+    }
+
     public String catsCreator() {
         String output = "Error";
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             CatApi catApi = objectMapper.readValue( new URL(Constants.CAT_API_URL), CatApi.class);
-            output=catApi.getFact();
+            output=catApi.toString();
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace();
