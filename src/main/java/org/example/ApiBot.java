@@ -44,8 +44,19 @@ public class ApiBot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
         sizeUser = uniqueUser.size();
         countRequest++;
+        Long chatId = getChatId(update);
+        if (!this.uniqueUser.containsKey(chatId)){
+           this.uniqueUser.put(chatId,1);
+        }else {
+            int counter = this.uniqueUser.get(chatId)+1;
+           this.uniqueUser.put(chatId,counter);
+            System.out.println(this.uniqueUser);
+
+        }
+        System.out.println(this.uniqueUser);
         String output = "Hi welcome to API bot, here are the available options: ";
         SendMessage sendMessage = new SendMessage();
+
         if(update.hasCallbackQuery()){
             sendMessage.setChatId(update.getCallbackQuery().getMessage().getChatId());
             String buttonPressed = update.getCallbackQuery().getData();
@@ -115,6 +126,16 @@ public class ApiBot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+    private Long getChatId(Update update) {
+        Long a=null;
+        if (update.getMessage()!=null){
+          a = update.getMessage().getChatId();
+        }else {
+            a = update.getCallbackQuery().getMessage().getChatId();
+        }
+        return a;
     }
 
     public void setApiChosen(List<Integer> apiChosen) {
