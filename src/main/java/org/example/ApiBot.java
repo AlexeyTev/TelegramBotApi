@@ -20,7 +20,7 @@ import java.util.*;
 public class ApiBot extends TelegramLongPollingBot {
 
     private List<Integer> apiChosen;
-    public static int countRequest = 0;
+    public static int countRequest = -1;
     private Map<Long,Integer> uniqueUser;
     public static int sizeUser = 0;
     private ArrayList<Api>lastActions;
