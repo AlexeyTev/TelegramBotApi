@@ -12,12 +12,13 @@ public class Api extends Thread{
     private Date date;
     private int useCounter;
 
-    public Api (String apiName, User user){
+    public Api (String apiName){
         this.id = idCounter;
         idCounter++;
         this.user = user;
         this.date = new Date();
         this.useCounter=0;
+        this.apiName=apiName;
     }
 
     //TODO: לטפל בשליחה וקבלת בקשות
@@ -29,6 +30,6 @@ public class Api extends Thread{
 
 
     public String toString() {
-        return "Api:" + "(" + this.id + ")"+ " API chosen:" + this.apiName+", User: "+this.user + " at time: "+ this.date;
+        return "Api:" + "(" + this.id + ")"+ " API chosen:" + this.apiName+" at time: "+ this.date;
     }
 }

@@ -15,10 +15,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import java.lang.reflect.Type;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class ApiBot extends TelegramLongPollingBot {
 
@@ -26,11 +23,13 @@ public class ApiBot extends TelegramLongPollingBot {
     public static int countRequest = 0;
     private Map<Long,Integer> uniqueUser;
     public static int sizeUser = 0;
+    private ArrayList<Api>lastActions;
 
 
     public ApiBot(List<Integer> apiChosen) {
         this.apiChosen = apiChosen;
         uniqueUser = new HashMap<>();
+        lastActions = new ArrayList<>();
     }
 
     public String getBotUsername() {
@@ -161,6 +160,11 @@ public class ApiBot extends TelegramLongPollingBot {
             ObjectMapper objectMapper = new ObjectMapper();
            JokesApi jokesApi = objectMapper.readValue( new URL(Constants.JOKES_API_URL), JokesApi.class);
             output=jokesApi.getJoke();
+            if (lastActions.size()<11) {
+                lastActions.add(new Api(Constants.OPT_1));
+            }else {lastActions.remove(0);
+                lastActions.add(new Api(Constants.OPT_1));
+            }
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace();
@@ -174,6 +178,11 @@ public class ApiBot extends TelegramLongPollingBot {
             ObjectMapper objectMapper = new ObjectMapper();
             FactApi factApi = objectMapper.readValue( new URL(Constants.FACT_API_URL), FactApi.class);
             output=factApi.toString();
+            if (lastActions.size()<11) {
+                lastActions.add(new Api(Constants.OPT_5));
+            }else {lastActions.remove(0);
+                lastActions.add(new Api(Constants.OPT_5));
+            }
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace();
@@ -187,6 +196,11 @@ public class ApiBot extends TelegramLongPollingBot {
             ObjectMapper objectMapper = new ObjectMapper();
             CatApi catApi = objectMapper.readValue( new URL(Constants.CAT_API_URL), CatApi.class);
             output=catApi.toString();
+            if (lastActions.size()<11) {
+                lastActions.add(new Api(Constants.OPT_4));
+            }else {lastActions.remove(0);
+                lastActions.add(new Api(Constants.OPT_4));
+            }
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace();
@@ -202,6 +216,11 @@ public class ApiBot extends TelegramLongPollingBot {
             response = getRequest.asString();
              json = response.getBody();
             System.out.println(json);
+            if (lastActions.size()<11) {
+                lastActions.add(new Api(Constants.OPT_2));
+            }else {lastActions.remove(0);
+                lastActions.add(new Api(Constants.OPT_2));
+            }
         } catch (UnirestException e) {
             e.printStackTrace();
         }
@@ -219,13 +238,31 @@ public class ApiBot extends TelegramLongPollingBot {
                 }
             });
             output=quotesApi.toString();
+            if (lastActions.size()<11) {
+                lastActions.add(new Api(Constants.OPT_3));
+            }else {lastActions.remove(0);
+                lastActions.add(new Api(Constants.OPT_3));
+            }
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace();
         }
         return output;
     }
+
+    public String  getLastActions() {
+        String output="";
+        Api api;
+        for (int i = 0 ;i < lastActions.size();i++){
+            api = lastActions.get(i);
+           output+=lastActions.get(i).toString();
+            System.out.println(api);
+
+        }
+        return output;
     }
+
+}
 
 
 

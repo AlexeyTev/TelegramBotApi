@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 public class AdminPanel extends JPanel {
+    private ApiBot theActiveBot;
     private List<Integer>apiChosen;
     private List<Api>lastActions;
     private final BotStats BOT_STATS;
@@ -66,6 +67,23 @@ public class AdminPanel extends JPanel {
         lastActions.setSize(Constants.BUTTON_WIDTH,Constants.BUTTON_HEIGHT);
         this.add(lastActions);
         lastActions.setVisible(true);
+        lastActions.addActionListener(e->{
+            if (this.theActiveBot!=null) {
+                Menu lastActionsWindow = new Menu();
+                lastActionsWindow.setSize(getWidth(), getHeight());
+                lastActionsWindow.setLayout(FLOW);
+                lastActionsWindow.setLocationRelativeTo(null);
+                lastActionsWindow.setSize(Constants.WINDOW_WIDTH / 2, Constants.WINDOW_HEIGHT / 2);
+                lastActionsWindow.setName("Last Actions Window");
+                lastActionsWindow.setTitle("Last Actions Telegram Bot");
+                lastActionsWindow.setResizable(false);
+                lastActionsWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+                JLabel lastActionsLabel = new JLabel(this.theActiveBot.getLastActions());
+                lastActionsLabel.setVisible(true);
+                lastActionsWindow.add(lastActionsLabel);
+                lastActionsWindow.setVisible(true);
+            }
+        });
     }
 
     private void addStatsButton() {
@@ -106,8 +124,10 @@ public class AdminPanel extends JPanel {
 
     private void createApiBot(List<Integer> apiChosen) {
         try{
+            ApiBot apiBot = new ApiBot(this.apiChosen);
             TelegramBotsApi telegramBotsApi = new TelegramBotsApi(DefaultBotSession.class);
-            telegramBotsApi.registerBot(new ApiBot(this.apiChosen));
+            telegramBotsApi.registerBot(apiBot);
+            this.theActiveBot=apiBot;
         }catch (TelegramApiException e){
             e.printStackTrace();
         }
