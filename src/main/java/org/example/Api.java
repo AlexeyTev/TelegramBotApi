@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Api extends Thread{
+public class Api {
     private int id;
     private static int idCounter = 0;
     private String apiName;
@@ -15,13 +15,11 @@ public class Api extends Thread{
     public Api (String apiName){
         this.id = idCounter;
         idCounter++;
-        this.user = user;
         this.date = new Date();
         this.useCounter=0;
         this.apiName=apiName;
     }
 
-    //TODO: לטפל בשליחה וקבלת בקשות
     private String sendRequestToApi (String userInput){
         String jsonResult ="";
 

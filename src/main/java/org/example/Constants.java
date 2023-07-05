@@ -18,4 +18,5 @@ public static String QUOTES_API_URL = "https://api.quotable.io/quotes/random?tag
     public static String CAT_API_URL = "https://catfact.ninja/fact";
     public static String FACT_API_URL ="https://uselessfacts.jsph.pl/api/v2/facts/random?language=en";
 
+    public static int TEN_LAST_ACTIONS = 10;
 }
