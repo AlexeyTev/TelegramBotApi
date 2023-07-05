@@ -24,12 +24,13 @@ public class ApiBot extends TelegramLongPollingBot {
     private Map<Long,Integer> uniqueUser;
     public static int sizeUser = 0;
     private ArrayList<Api>lastActions;
-
+    public static int[] countApiActivity;
 
     public ApiBot(List<Integer> apiChosen) {
         this.apiChosen = apiChosen;
         uniqueUser = new HashMap<>();
         lastActions = new ArrayList<>();
+        this.countApiActivity = new int[5];
     }
 
     public String getBotUsername() {
@@ -160,6 +161,7 @@ public class ApiBot extends TelegramLongPollingBot {
             ObjectMapper objectMapper = new ObjectMapper();
            JokesApi jokesApi = objectMapper.readValue( new URL(Constants.JOKES_API_URL), JokesApi.class);
             output=jokesApi.getJoke();
+            this.countApiActivity[Constants.OPT_1_NUM-1]++;
             if (lastActions.size()<11) {
                 lastActions.add(new Api(Constants.OPT_1));
             }else {lastActions.remove(0);
@@ -178,6 +180,7 @@ public class ApiBot extends TelegramLongPollingBot {
             ObjectMapper objectMapper = new ObjectMapper();
             FactApi factApi = objectMapper.readValue( new URL(Constants.FACT_API_URL), FactApi.class);
             output=factApi.toString();
+            this.countApiActivity[Constants.OPT_5_NUM-1]++;
             if (lastActions.size()<11) {
                 lastActions.add(new Api(Constants.OPT_5));
             }else {lastActions.remove(0);
@@ -196,6 +199,7 @@ public class ApiBot extends TelegramLongPollingBot {
             ObjectMapper objectMapper = new ObjectMapper();
             CatApi catApi = objectMapper.readValue( new URL(Constants.CAT_API_URL), CatApi.class);
             output=catApi.toString();
+            this.countApiActivity[Constants.OPT_4_NUM-1]++;
             if (lastActions.size()<11) {
                 lastActions.add(new Api(Constants.OPT_4));
             }else {lastActions.remove(0);
@@ -216,6 +220,7 @@ public class ApiBot extends TelegramLongPollingBot {
             response = getRequest.asString();
              json = response.getBody();
             System.out.println(json);
+            this.countApiActivity[Constants.OPT_2_NUM-1]++;
             if (lastActions.size()<11) {
                 lastActions.add(new Api(Constants.OPT_2));
             }else {lastActions.remove(0);
@@ -238,6 +243,7 @@ public class ApiBot extends TelegramLongPollingBot {
                 }
             });
             output=quotesApi.toString();
+            this.countApiActivity[Constants.OPT_3_NUM-1]++;
             if (lastActions.size()<11) {
                 lastActions.add(new Api(Constants.OPT_3));
             }else {lastActions.remove(0);
@@ -255,7 +261,7 @@ public class ApiBot extends TelegramLongPollingBot {
         Api api;
         for (int i = 0 ;i < lastActions.size();i++){
             api = lastActions.get(i);
-           output+=lastActions.get(i).toString();
+           output+=lastActions.get(i).toString() + "\n";
             System.out.println(api);
 
         }

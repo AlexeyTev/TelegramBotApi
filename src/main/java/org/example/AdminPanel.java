@@ -78,7 +78,7 @@ public class AdminPanel extends JPanel {
                 lastActionsWindow.setTitle("Last Actions Telegram Bot");
                 lastActionsWindow.setResizable(false);
                 lastActionsWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-                JLabel lastActionsLabel = new JLabel(this.theActiveBot.getLastActions());
+                JTextArea lastActionsLabel = new JTextArea(this.theActiveBot.getLastActions());
                 lastActionsLabel.setVisible(true);
                 lastActionsWindow.add(lastActionsLabel);
                 lastActionsWindow.setVisible(true);

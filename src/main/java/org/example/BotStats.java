@@ -7,9 +7,11 @@ public class BotStats {
    private List<User>uniqueUsers;
    private User mostActiveUser;
   private Api mostPopular;
+  private final String[] nameApi;
 
   public BotStats(){
       this.uniqueUsers= new LinkedList<>();
+      this.nameApi = new String[5];
   }
 
   public void addUniqueUser (User user){
@@ -18,8 +20,23 @@ public class BotStats {
       }
   }
 
+  private String mostActivityApi(){
+      String result = "";
+      int max = 0;
+      int index = 0;
+      for (int i = 0; i < 5; i++) {
+          if (ApiBot.countApiActivity[i] > max) {
+              index = i;
+              max = ApiBot.countApiActivity[i];
+          }
+      }
+      result = nameApi[index];
+      return result;
+  }
+
     public String getStats (){
       return  " Requests the bot received: "+ ApiBot.countRequest +
-              " Unique users: " + ApiBot.sizeUser;
+              " Unique users: " + ApiBot.sizeUser +
+              "Most Active Api: " + mostActivityApi();
     }
 }
