@@ -18,6 +18,7 @@ import java.net.URL;
 import java.util.*;
 
 public class ApiBot extends TelegramLongPollingBot {
+    ActivityChart ac;
 
     private List<Integer> apiChosen;
     public static int countRequest = -1;
@@ -31,6 +32,7 @@ public class ApiBot extends TelegramLongPollingBot {
         uniqueUser = new HashMap<>();
         lastActions = new ArrayList<>();
         this.countApiActivity = new int[5];
+        this.ac = new ActivityChart();
     }
 
     public String getBotUsername() {
@@ -162,11 +164,13 @@ public class ApiBot extends TelegramLongPollingBot {
            JokesApi jokesApi = objectMapper.readValue( new URL(Constants.JOKES_API_URL), JokesApi.class);
             output=jokesApi.getJoke();
             this.countApiActivity[Constants.OPT_1_NUM-1]++;
+            Api api = new Api(Constants.OPT_1);
             if (lastActions.size()<Constants.TEN_LAST_ACTIONS) {
-                lastActions.add(new Api(Constants.OPT_1));
+                lastActions.add(api);
             }else {lastActions.remove(0);
-                lastActions.add(new Api(Constants.OPT_1));
+                lastActions.add(api);
             }
+            ac.setActivityAndTime(api,countRequest);
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace();
@@ -181,11 +185,13 @@ public class ApiBot extends TelegramLongPollingBot {
             FactApi factApi = objectMapper.readValue( new URL(Constants.FACT_API_URL), FactApi.class);
             output=factApi.toString();
             this.countApiActivity[Constants.OPT_5_NUM-1]++;
+            Api api = new Api(Constants.OPT_5);
             if (lastActions.size()<Constants.TEN_LAST_ACTIONS) {
-                lastActions.add(new Api(Constants.OPT_5));
+                lastActions.add(api);
             }else {lastActions.remove(0);
-                lastActions.add(new Api(Constants.OPT_5));
+                lastActions.add(api);
             }
+            ac.setActivityAndTime(api,countRequest);
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace();
@@ -200,11 +206,13 @@ public class ApiBot extends TelegramLongPollingBot {
             CatApi catApi = objectMapper.readValue( new URL(Constants.CAT_API_URL), CatApi.class);
             output=catApi.toString();
             this.countApiActivity[Constants.OPT_4_NUM-1]++;
+            Api api = new Api(Constants.OPT_4);
             if (lastActions.size()<Constants.TEN_LAST_ACTIONS) {
-                lastActions.add(new Api(Constants.OPT_4));
+                lastActions.add(api);
             }else {lastActions.remove(0);
-                lastActions.add(new Api(Constants.OPT_4));
+                lastActions.add(api);
             }
+            ac.setActivityAndTime(api,countRequest);
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace();
@@ -221,10 +229,12 @@ public class ApiBot extends TelegramLongPollingBot {
              json = response.getBody();
             System.out.println(json);
             this.countApiActivity[Constants.OPT_2_NUM-1]++;
+            Api api = new Api(Constants.OPT_2);
+            ac.setActivityAndTime(api,countRequest);
             if (lastActions.size()<Constants.TEN_LAST_ACTIONS) {
-                lastActions.add(new Api(Constants.OPT_2));
+                lastActions.add(api);
             }else {lastActions.remove(0);
-                lastActions.add(new Api(Constants.OPT_2));
+                lastActions.add(api);
             }
         } catch (UnirestException e) {
             e.printStackTrace();
@@ -244,11 +254,13 @@ public class ApiBot extends TelegramLongPollingBot {
             });
             output=quotesApi.toString();
             this.countApiActivity[Constants.OPT_3_NUM-1]++;
+            Api api = new Api(Constants.OPT_3);
             if (lastActions.size()<Constants.TEN_LAST_ACTIONS) {
-                lastActions.add(new Api(Constants.OPT_3));
+                lastActions.add(api);
             }else {lastActions.remove(0);
-                lastActions.add(new Api(Constants.OPT_3));
+                lastActions.add(api);
             }
+            ac.setActivityAndTime(api,countRequest);
         } catch (Exception e) {
             e.getMessage();
             e.printStackTrace();
@@ -267,6 +279,9 @@ public class ApiBot extends TelegramLongPollingBot {
         return output;
     }
 
+    public ActivityChart getAc() {
+        return ac;
+    }
 }
 
 

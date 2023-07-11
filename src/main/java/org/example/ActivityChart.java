@@ -24,38 +24,54 @@ public class ActivityChart {
 
 
     }
-    public void setActivityAndTime (int data,String label){
-        this.activity.add(data);
-        this.label.add(label);
+    public void setActivityAndTime (Api api,int n){
+        this.activity.add(n);
+        String day ="";
+        switch (api.getDate().toString().substring(0, api.getDate().toString().indexOf(" "))){
+            case "Sun" -> day = "1";
+            case "Mon" -> day ="2";
+            case "Tue" -> day ="3";
+            case "Wed" -> day ="4";
+            case "Thu" -> day ="5";
+            case "Fri" -> day="6";
+            case "Sat" -> day="7";
+        }
+        this.label.add(day);
     }
     //TODO:לבדוק איך אני מקבל את הרספונס של האיפיאי ולסדר את ההדפסה
-    public String generateChart (){
-        String jsonResult= "";
-        String generate=this.chartUrl;
-        for (String label: this.label){
-            generate+=label + ",";
+    public String generateChart () {
+        String jsonResult = "";
+        if (this.activity != null && this.label != null || this.activity.size()>0 && this.label.size()>0) {
+
+            String generate = this.chartUrl;
+            for (String label : this.label) {
+                generate += label + ",";
+            }
+            generate = generate.substring(0, generate.length() - 1);
+            generate += "],datasets:[{label:%27Activity Over Time%27,data:[";
+            for (Integer data : this.activity) {
+                generate += data.toString() + ",";
+            }
+            generate = generate.substring(0, generate.length() - 1);
+            generate += "]}]}}";
+            System.out.println(generate);
+
+//            try {
+//                GetRequest getRequest = Unirest.get(generate);
+//                HttpResponse<String> response;
+//
+//                response = getRequest.asString();
+//
+//                System.out.println(response.getStatus());
+//                System.out.println("--------");
+//                jsonResult = response.getBody();
+//            } catch (UnirestException e) {
+//                throw new RuntimeException(e);
+//            }
+
+
         }
-        generate+="0],datasets:[{label:%27Activity Over Time%27,data:[";
-        for (Integer data:this.activity){
-            generate+=data.toString() + ",";
-        }
-        generate+="0]}]}}";
-        System.out.println(generate);
-
-        try{
-        GetRequest getRequest = Unirest.get(generate);
-        HttpResponse<String> response;
-
-            response = getRequest.asString();
-
-        System.out.println(response.getStatus());
-        System.out.println("--------");
-        jsonResult = response.getBody();
-        } catch (UnirestException e) {
-            throw new RuntimeException(e);
-        }
-
-
         return jsonResult;
     }
+
 }

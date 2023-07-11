@@ -30,4 +30,13 @@ public class Api {
     public String toString() {
         return "Api:" + "(" + this.id + ")"+ " API chosen:" + this.apiName+" at time: "+ this.date;
     }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public int getUseCounter() {
+        return useCounter;
+    }
+
 }

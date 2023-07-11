@@ -39,6 +39,7 @@ public class AdminPanel extends JPanel {
         this.add(activityGraph);
         activityGraph.setVisible(true);
         activityGraph.addActionListener(e -> {
+            this.theActiveBot.getAc().generateChart();
             Menu statsWindow = new Menu();
             statsWindow.setSize(getWidth(),getHeight());
             statsWindow.setLayout(FLOW);
