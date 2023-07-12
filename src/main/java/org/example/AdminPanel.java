@@ -104,7 +104,8 @@ public class AdminPanel extends JPanel {
             statsWindow.setTitle("Telegram Bot Stats");
             statsWindow.setResizable(false);
             statsWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            JLabel botStats = new JLabel(stats);
+            JTextArea botStats = new JTextArea(stats);
+            botStats.setEditable(false);
             botStats.setVisible(true);
             statsWindow.add(botStats);
             statsWindow.setVisible(true);

@@ -7,7 +7,9 @@ import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import com.mashape.unirest.request.GetRequest;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
+import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChat;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+import org.telegram.telegrambots.meta.api.objects.Chat;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton;
@@ -24,6 +26,7 @@ public class ApiBot extends TelegramLongPollingBot {
     public static int countRequest = -1;
     private Map<Long,Integer> uniqueUser;
     public static int sizeUser = 0;
+    public static String userName = "";
     private ArrayList<Api>lastActions;
     public static int[] countApiActivity;
 
@@ -52,9 +55,10 @@ public class ApiBot extends TelegramLongPollingBot {
         }else {
             int counter = this.uniqueUser.get(chatId)+1;
            this.uniqueUser.put(chatId,counter);
-            System.out.println(this.uniqueUser);
-
         }
+        Long maxKey = Collections.max(uniqueUser.entrySet(), Map.Entry.comparingByValue()).getKey();
+        String idUser = String.valueOf(maxKey);
+        userName = getUserUsername(idUser);
         System.out.println(this.uniqueUser);
         String output = "Hi welcome to API bot, here are the available options: ";
         SendMessage sendMessage = new SendMessage();
@@ -130,6 +134,21 @@ public class ApiBot extends TelegramLongPollingBot {
         }
     }
 
+    public String getUserUsername(String userId) {
+        GetChat getChat = new GetChat();
+        getChat.setChatId(userId);
+        String name = "";
+        try {
+            Chat chat = execute(getChat);
+             name = chat.getFirstName();
+            if (chat.getLastName() != null)
+                name+="" +chat.getLastName();
+            System.out.println("שם המשתמש: " + name);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+        return name;
+    }
     private Long getChatId(Update update) {
         Long a=null;
         if (update.getMessage()!=null){

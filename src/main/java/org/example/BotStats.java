@@ -14,11 +14,6 @@ public class BotStats {
 
   }
 
-  public void addUniqueUser (User user){
-      if (!this.uniqueUsers.contains(user)){
-          this.uniqueUsers.add(user);
-      }
-  }
 
   private String mostActivityApi(){
       String result = "";
@@ -35,8 +30,9 @@ public class BotStats {
   }
 
     public String getStats (){
-      return  " Requests received: "+ ApiBot.countRequest +
-              " Unique users: " + ApiBot.sizeUser +
-              "Most Active Api: " + mostActivityApi();
+      return  "Requests received: "+ ApiBot.countRequest + "\n" +
+              "Unique users: " + ApiBot.sizeUser +"\n" +
+              "Most Active Api: " + mostActivityApi() +"\n" +
+              "Most Active User: " + ApiBot.userName;
     }
 }
